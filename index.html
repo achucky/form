@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表单验证</title>
+</head>
+<body>
+
+<style>
+*{
+    padding: 0;
+    margin: 0;
+}
+.clear{
+    zoom: 1;
+}
+.clear:after{
+    content: '';
+    clear: both;
+    display: block;
+}
+
+.form-box{
+    width: 800px;
+    margin: 50px auto 0;
+}
+.form-row{
+    height: 68px;
+    width: 800px!important;
+    font-size: 12px;
+}
+.form-row .form-name{
+    float: left;
+    font-size: 14px;
+    width: 338px;
+    padding-right: 10px;
+    text-align: right;
+    vertical-align: top;
+    color: #646464;
+    padding-top: 8px;
+    font-family: 'Microsoft YaHei';
+    _line-height: 24px;
+}
+.form-row .form-inp{
+    float: left;
+    position: relative;
+    height: 68px;
+}
+.form-row .form-inp img{
+    vertical-align: middle;
+}
+.form-row .change_img{
+    padding:0 12px;
+}
+.form-row input{
+    border: 1px solid #e6e6e6;
+    font-family: 'Microsoft YaHei';
+    height: 18px;
+    width: 290px;
+    margin-right: 10px;
+    padding: 9px 10px;
+    line-height: 18px;
+    outline: 0 none;
+    border-radius: 2px;
+    color: #333;
+    display: inline-block;
+}
+#authcode{
+    width: 110px;
+    vertical-align: middle;
+}
+#phonecheak{
+    vertical-align: middle;
+    width: 120px;
+}
+#getCheak{
+    width: 118px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    padding:0 20px;
+    border:solid 1px #ddd;
+    background: #f2f2f2;
+    display: inline-block;
+    vertical-align: middle;
+    text-decoration:none;
+    color: #333;
+}
+#getCheak.disabled{
+    background: #eee;
+    cursor: wait;
+}
+.form-row label.error{
+    position: absolute;
+    left: 8px;
+    bottom: 8px;
+    color: #f00000;
+    line-height: 14px;
+    padding: 0 4px;
+    margin-right: 5px;
+    font-size: 12px;
+}
+.form-row button{
+    display:block;
+    margin: 0 auto;
+    font-size: 20px;
+    border: 0;
+    width: 178px;
+    height: 44px;
+    line-height: 44px;
+    cursor: pointer;
+    text-align: center;
+    background-color: #ff2832;
+    color: #fff;
+    border-radius: 22px;
+}
+.form-row input.error{
+    border-color: #ff4646;
+    background: #fef0ef;
+}
+.form-row label.right{
+    position: absolute;
+    width: 8px;
+    height: 15px;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAHnSURBVFhHzZg9S0JhGIb9D9WiU/UDqqlFgqamMoI+howQapAGkbb+Ro0tTv2DNi2hCBLTiPaiyTKDOkMix3r1Ns/H/Z6v3je64ILsfZ7nfjh1rGMsCvl6ZmmqONL1UtSgXB8sOIhoV4NhGHEWEkXTNOMYG4258iQd/BvFTIwPBxumUsQEgw3QIeK8YY06RSwnWZ6gTToVmYi3o/Ju8vPytdRtths/rw3TcN991gZdttrN7oBMddF2hjWGWA9Ve3CfxRpDnDVYo4/zUKUyWC3W0beQF6y+t0z+bsv3D2VY9+rriJUze55w9eXq6ZTyq3P2fIpIf1i/0oVu3q4Q5c90cZTOULZQ4eEQUXI+Ou+016rvQidPxxjHL7Fw43oeFXJYH1O6kAxnnbj0XmRra64eL20L5W43MUZOx+zYBnhhrQuq6wpVWhcYJydbW+3VyjAC/K7IlP7IkuVxjOfs1lbwlZ2d6jKdF1TfN8Z0ZQFR/syUxuiMoPbeGAXs0OnLZwOxHNYT1t4yAnYok8Hqooh1+rACmVbYeRSxxhBW5GXh8Yh+P6pYY4h4iGOFf6H0AfJf/ZM/gDXpFLHesEYdIi4YbIBKEROOf/VhwwCVd9/3w2gCY9XAQoKIdn3s17dTLNiqqEF5CGKxL2cfVb3L17RYAAAAAElFTkSuQmCC);
+    background-size: 100% 100%;
+    left: inherit;
+    bottom: inherit;
+    margin-top: 13px;
+    margin-left: -34px;
+}
+</style>
+
+<div class="form-box">
+    <form id="form" action="">
+        <div class="form-row clear">
+            <label class="form-name" for="">用户名</label>
+            <div class="form-inp"><input type="text" id="username" name="username"></div>
+        </div>
+        <div class="form-row clear">
+            <label class="form-name" for="">电子邮箱</label>
+            <div class="form-inp"><input type="text" id="email" name="email"></div>
+        </div>
+        <div class="form-row clear">
+            <label class="form-name" for="">手机号码</label>
+            <div class="form-inp"><input maxlength="11" type="tel" id="phone" name="phone" placeholder="请输入您的手机号码"></div>
+        </div>
+        <div class="form-row clear" id="authcode-box">
+            <label class="form-name" for="">验证码</label>
+            <div class="form-inp"><input type="text" id="authcode" name="authcode" maxlength="4" placeholder="请输入验证码"><img id="codeimg" width="100" height="36" src="./captcha.php?r=<?php echo rand();?>"><a class="change_img" href="javascript:;">换一张</a></div>
+        </div>
+        <div class="form-row clear" id="phonecheak-box">
+            <label class="form-name" for="">短信验证码</label>
+            <div class="form-inp"><input maxlength="6" type="text" id="phonecheak" name="phonecheak"><a id="getCheak" href="javascript:;">获取短信验证码</a></div>
+        </div>
+        <div class="form-row clear">
+            <label class="form-name" for="">邮政编码</label>
+            <div class="form-inp"><input maxlength="6" type="tel" id="postcode" name="postcode"></div>
+        </div>
+        <div class="form-row clear">
+            <label class="form-name" for="">密码</label>
+            <div class="form-inp"><input type="password" id="password" name="password"></div>
+        </div>
+        <div class="form-row clear">
+            <label class="form-name" for="">确认密码</label>
+            <div class="form-inp"><input type="password" id="confirmPassword" name="confirmPassword"></div>
+        </div>
+        <div class="form-row clear">
+            <button type="submit">提交</button>
+        </div>
+    </form>
+</div>
+
+<!-- 注释 -->
+<p style="margin-top: 40px;text-align: center;">说明</p>
+<p style="text-align: center;">这个案例用了jquery.validate结合ajax，php验证表单</p>
+<p style="text-align: center;">用户名用ajax验证是否已注册（用户名admin已被注册）</p>
+<p style="text-align: center;">验证码php生成，保存在SESSION中，用ajax验证</p>
+
+<script src="./js/jquery.js"></script>
+<script src="./js/jquery.validate.js"></script>
+<script>
+
+
+var time = 0;
+var t=null;
+$('#getCheak').on('click', function(){
+    $self = $(this)
+    if(time == 0 && $("form").validate().element($("#phone")) && $("form").validate().element($("#authcode"))){
+        time = 60;
+        $self.addClass('disabled').html(time + '秒后再获取');
+        $.ajax({
+            url:'sendMobileCode.php',
+            type:'get',
+            data:{
+                mobile:$('#phone').val(),
+                authcode:$('#authcode').val()
+            },
+            success: function(data){
+                var html = '<div style="text-align:center;color:red;">模拟接受短信：你的验证码为<span style="color:blue">' + data + '</span>,请勿告诉他人</div>'
+                $('form').append(html);
+            }
+        })
+        clearInterval(t)
+        t=setInterval(function(){
+            time --;
+            if(time == 0){
+                $self.removeClass('disabled').html('获取短信验证码');
+                clearInterval(t)
+            }else{
+                $self.html(time + '秒后再获取');
+
+            }
+        }, 1000)
+    }else{
+        return false;
+    }
+})
+
+
+$('.change_img').on('click', function(){
+    $('#codeimg').attr({
+        src:'./captcha.php?r='+Math.random()
+    })
+    $("#authcode").val("").siblings('.error').removeClass('right')
+})
+
+$("form").validate({
+    rules:{//定义规则
+        username:{//用户名规则，name的值(非id的值)
+            required:true,//必填
+            letNum:true,
+            minlength:4,//最小长度
+            maxlength:12,//最大长度
+            remote:{//ajax验证用户名是否被注册(返回true,fales)
+                url:'./username_checker.php',
+                type:'post'
+            }
+        },
+        email:{
+            required:true,
+            //格式有email,url,data,dataISO(YYYY-MM-DD),number,digits(整数),equalTo(与另一个元素相等)
+            email:true//email格式
+        },
+        phone:{
+            required:true,
+            phone:true
+        },
+        authcode:{
+            required:true,
+            minlength:4,
+            maxlength:4,
+            remote:{
+                url:'./authcode.php',
+                type:'post'
+            }
+        },
+        phonecheak:{
+            required:true,
+            // {
+            //     depends: function (element){
+            //         // return !$("form").validate().element($("#phone")) && !$("form").validate().element($("#authcode"));
+            //         return !$("#phone").is(":filled") && !$("#authcode").is(":filled");
+            //     }
+            // },
+            minlength:6,
+            remote:{
+                url:'./getMobileCode.php',
+                type:'post',
+                data:{
+                    mobile:$('#phone').val()
+                }
+            }
+        },
+        postcode:{
+            required:true,
+            postcode:true
+        },
+        password:{
+            required:true,
+            minlength:6,
+            maxlength:12,
+            strongPsw:true
+        },
+        confirmPassword:{
+            required:true,
+            equalTo:"#password"
+        }
+    },
+    messages:{//定义提示信息
+        username:{
+            required:"必须填写用户名",
+            minlength:"用户名最小为4位",
+            maxlength:"用户名最大为12位",
+            remote:'用户名已被注册'
+        },
+        email:{
+            required:"必须填写email",
+            email:"输入的email格式不正确"
+        },
+        phone:{
+            required:"必须填写手机号码"
+        },
+        authcode:{
+            required:"必须填写验证码",
+            minlength:"验证码为4位",
+            remote:"验证码错误"
+        },
+        phonecheak:{
+            required:"必须填写短信验证码",
+            minlength:"短信验证码为6位",
+            remote:"短信验证码错误"
+        },
+        postcode:{
+            required:"必须填写邮编"
+        },
+        password:{
+            required:"必须填写密码",
+            minlength:"密码最小为6位",
+            maxlength:"密码最大为12位"
+        },
+        confirmPassword:{
+            required:"必须填写确认密码",
+            equalTo:"两次输入密码不一致"
+        }
+    },
+    submitHandler: function (form){//通过验证后的操作(可以用ajax提交表单)
+        alert('提交成功')
+        // form.submit()
+    },
+    // errorClass: "invalid",
+    success: "right" //要验证的元素通过验证后的动作(这里添加个class)作用在label上
+});
+
+//添加邮编的验证方法
+$.validator.addMethod("postcode", function (value, element, params){
+    var postcode = /^\d{6}$/;
+    return this.optional(element) || (postcode.test(value));
+}, "请填写正确的邮编！");
+
+
+//添加字母或数字验证方法
+$.validator.addMethod("letNum", function (value, element, params){
+    var letNum = /^[a-zA-Z\d]+$/g;
+    return this.optional(element) || (letNum.test(value));
+}, "请输入字母或数字！");
+
+//添加手机号码的验证方法
+$.validator.addMethod("phone", function (value, element, params){
+    var phone = /^1[34578]\d{9}$/;
+    return this.optional(element) || (phone.test(value));
+}, "请填写正确的手机号码！");
+
+//添加身份证的验证方法(18位)
+$.validator.addMethod("IDCard", function (value, element, params){
+    var IDCard = /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{4}$/;
+    return this.optional(element) || (IDCard.test(value));
+}, "请填写正确的身份证号码！");
+
+//添加固定电话的验证方法
+$.validator.addMethod("line", function (value, element, params){
+    var tel = /^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/;
+    return this.optional(element) || (tel.test(value));
+}, "请填写正确的固定电话！");
+
+//添加密码强度方法
+$.validator.addMethod("strongPsw",function(value,element,params){
+    if(passwordLevel(value)==1){return false;}
+    return true;
+},"密码设置太简单");
+
+function passwordLevel(password) {
+    //使用语法：passwordLevel(string)
+    //验证规则：数字、大写字母、小写字母、特殊字符
+    //函数结果：返回密码中包含的规则数
+
+    var Modes = 0;
+    for (var i = 0; i < password.length; i++) {
+        Modes |= CharMode(password.charCodeAt(i));
+    }
+    return bitTotal(Modes);
+    //CharMode函数
+    function CharMode(int) {
+        if (int >= 48 && int <= 57)//数字
+            return 1;
+        if (int >= 65 && int <= 90) //大写字母
+            return 2;
+        if ((int >= 97 && int <= 122) || (int >= 65 && int <= 90))
+        //大小写
+            return 4;
+        else
+            return 8; //特殊字符
+    }
+    //bitTotal函数
+    function bitTotal(num) {
+        modes = 0;
+        for (var i = 0; i < 4; i++) {
+            if (num & 1) modes++;
+            num >>>= 1;
+        }
+        return modes;
+    }
+}
+
+</script>
+
+</body>
+</html>
