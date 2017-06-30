@@ -8,7 +8,7 @@
 **原因：**使用 success: "right" 添加成功样式，验证成功后再更改表单到失败时，class不会被去除
 
 **解决：**  
-再jquery.validate源码第991行添加代码
+在jquery.validate源码第991行添加代码
 ```
 if ( message && this.settings.success ) {
     if ( typeof this.settings.success === "string" ) {
