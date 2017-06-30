@@ -1,7 +1,9 @@
 # jquery.validate验证表单案例
 
 这个案例用了jquery.validate结合ajax，php验证表单
+
 用户名用ajax验证是否已注册（用户名admin已被注册）
+
 验证码php生成，保存在SESSION中，用ajax验证
 
 ## 填坑之路  
